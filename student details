@@ -1,0 +1,146 @@
+import java.util.Scanner;
+
+// Node class
+class Student {
+    String name;
+    int rollNo;
+    Student next;
+
+    Student(String name, int rollNo) {
+        this.name = name;
+        this.rollNo = rollNo;
+        this.next = null;
+    }
+}
+
+// Linked List class
+class StudentManagement {
+    Student head = null;
+
+    // 1. Add Student
+    void addStudent(String name, int rollNo) {
+        Student newStudent = new Student(name, rollNo);
+
+        if (head == null) {
+            head = newStudent;
+        } else {
+            Student temp = head;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            temp.next = newStudent;
+        }
+        System.out.println("Student Added Successfully!");
+    }
+
+    // 2. Display Students
+    void displayStudents() {
+        if (head == null) {
+            System.out.println("No students found.");
+            return;
+        }
+
+        Student temp = head;
+        while (temp != null) {
+            System.out.println("Name: " + temp.name + ", Roll No: " + temp.rollNo);
+            temp = temp.next;
+        }
+    }
+
+    // 3. Search Student
+    void searchStudent(int rollNo) {
+        Student temp = head;
+
+        while (temp != null) {
+            if (temp.rollNo == rollNo) {
+                System.out.println("Student Found: " + temp.name);
+                return;
+            }
+            temp = temp.next;
+        }
+
+        System.out.println("Student Not Found.");
+    }
+
+    // 4. Delete Student
+    void deleteStudent(int rollNo) {
+        if (head == null) {
+            System.out.println("List is empty.");
+            return;
+        }
+
+        // If head needs to be deleted
+        if (head.rollNo == rollNo) {
+            head = head.next;
+            System.out.println("Student Deleted Successfully!");
+            return;
+        }
+
+        Student temp = head;
+
+        while (temp.next != null) {
+            if (temp.next.rollNo == rollNo) {
+                temp.next = temp.next.next;
+                System.out.println("Student Deleted Successfully!");
+                return;
+            }
+            temp = temp.next;
+        }
+
+        System.out.println("Student Not Found.");
+    }
+}
+
+// Main class (IMPORTANT → file name must be Main.java)
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        StudentManagement sm = new StudentManagement();
+
+        while (true) {
+            System.out.println("\n--- Student Management System ---");
+            System.out.println("1. Add Student");
+            System.out.println("2. Display Students");
+            System.out.println("3. Search Student");
+            System.out.println("4. Delete Student");
+            System.out.println("5. Exit");
+
+            System.out.print("Enter choice: ");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    sc.nextLine(); // clear buffer
+                    System.out.print("Enter Name: ");
+                    String name = sc.nextLine();
+                    System.out.print("Enter Roll No: ");
+                    int rollNo = sc.nextInt();
+                    sm.addStudent(name, rollNo);
+                    break;
+
+                case 2:
+                    sm.displayStudents();
+                    break;
+
+                case 3:
+                    System.out.print("Enter Roll No to search: ");
+                    int searchRoll = sc.nextInt();
+                    sm.searchStudent(searchRoll);
+                    break;
+
+                case 4:
+                    System.out.print("Enter Roll No to delete: ");
+                    int deleteRoll = sc.nextInt();
+                    sm.deleteStudent(deleteRoll);
+                    break;
+
+                case 5:
+                    System.out.println("Exiting...");
+                    return;
+
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        }
+    }
+}
